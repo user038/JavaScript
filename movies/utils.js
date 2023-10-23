@@ -1,3 +1,4 @@
+//delaying search results until the user types the input
 const debounce = (func,delay = 1000) =>{
     let timeOutId;
     return (...args) =>{
