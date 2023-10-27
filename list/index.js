@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
 // const { rejects } = require('assert');
+// import { promises, readdir } from 'fs';
 const fs = require('fs');
+const path = require('path');
 // const { resolve } = require('path');
 // const    util = require('util');
-const chalk = require('chalk');
+// const chalk = require('chalk');
 //  import { chalk } from ('chalk');
 // const chalk = (...args) => import('node-chalk').then(({default:chalk})=>chalk(...args));
 
@@ -14,24 +16,27 @@ const chalk = require('chalk');
 //Method #3
 const {lstat} = fs.promises;
 
-fs.readdir(process.cwd(),async(err,filenames)=>{
+const targetDir = process.argv[2] || process.cwd();
+
+fs.readdir(targetDir,async(err,filenames)=>{
      if(err){
          console.log(err); 
     }
 
    const statPromises = filenames.map((i)=>{
-    return lstat(i);
+    return lstat(path.join(targetDir,i));
    })
 
    const allStats = await Promise.all(statPromises);
 
    for(let stats of allStats){
     const index = allStats.indexOf(stats);
-    if(stats.isFile()){
-        console.log(chalk.green(filenames[index]),stats.isFile())
-    }else{
-        console.log(chalk.bold(filenames[index]),stats.isFile())
-    }
+    console.log(filenames[index],stats.isFile())
+    // if(stats.isFile()){
+    //     console.log(chalk.bold(filenames[index]),stats.isFile())
+    // }else{
+    //     console.log(filenames[index],stats.isFile())
+    // }
    }
 });
 
