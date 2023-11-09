@@ -1,27 +1,18 @@
-import express, { urlencoded } from 'express';
+import express,{ urlencoded } from "express";
+import router from "./routes/admin/auth.js";
+import cookieSession from "cookie-session";
+
 
 const app = express();
 
-app.use(urlencoded({extended: true}));
+app.use(urlencoded({extended:"true"}));
+app.use(cookieSession({
+    keys : ['wdqwfewwde']
+}));
 
-app.get('/res',(req,res)=>{
-    res.send(`
-    <div>
-        <form method = "POST">
-            <input placeholder = "email" name = "email"/>
-            <input placeholder = "password" name = "password"/>
-            <input placeholder = "confirm password" name="confirmPassword"/>
-            <button>Sign up</button>
-        </form>
-    </div>
-    `);
-})
+app.use(router);
 
-app.post('/res',(req,res)=>{
-   console.log(req.body);
-    res.send('Account Created');
-})
 
-app.listen(3000,()=>{
-    console.log('Listening');
+app.listen(3002,()=>{
+    console.log('Listening...');
 })
